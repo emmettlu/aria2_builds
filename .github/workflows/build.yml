@@ -35,14 +35,15 @@ jobs:
       - name: build
         working-directory: ${{ env.PROJECT_PATH }}
         run: |
-          msbuild Mile.Aria2.slnx `
+          msbuild BuildAllTargets.proj `
           /p:PlatformToolset=v142 `
           /p:WindowsTargetPlatformVersion=10.0.19041.0 `
           /p:Platform=x64 `
           /p:Configuration=Release `
           /p:WholeProgramOptimization=true `
           /p:Optimization=MinSpace `
-          /p:FunctionLevelLinking=true
+          /p:FunctionLevelLinking=true `
+          /v:minimal
 
       - name: Archive
         uses: actions/upload-artifact@v5
