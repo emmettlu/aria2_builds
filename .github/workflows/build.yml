@@ -7,31 +7,32 @@ on:
 jobs:
   build:
     env:
-      PROJECT_REPOSITORY: pbatard/rufus
-      PROJECT_VERSION: v3.22
-      PROJECT_PATH: rufus
-      PROJECT_BIN: rufus
+      PROJECT_REPOSITORY: ProjectMile/Mile.Aria2
+      PROJECT_VERSION: 1.0.1050.0
+      PROJECT_PATH: Aria2
+      PROJECT_BIN: Aria2
     strategy:
       matrix:
         os: [windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout ${{ env.PROJECT_PATH }}
+      - name: switch ${{ env.PROJECT_PATH }}
         uses: actions/checkout@v6
         with:
           repository: ${{ env.PROJECT_REPOSITORY }}
           ref: refs/tags/${{ env.PROJECT_VERSION }}
           path: ${{ env.PROJECT_PATH }}
 
-      - name: Setup msbuild
+      - name: setup msbuild
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
-      - name: Build
+      - name: build
         working-directory: ${{ env.PROJECT_PATH }}
         run: |
-          msbuild rufus.sln `
+          msbuild Mile.Aria2.slnx `
+          /t:Clean `
           /p:PlatformToolset=v142 `
           /p:WindowsTargetPlatformVersion=10.0.19041.0 `
           /p:Platform=x64 `
