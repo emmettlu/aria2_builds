@@ -22,6 +22,7 @@ jobs:
           repository: ${{ env.PROJECT_REPOSITORY }}
           ref: refs/tags/${{ env.PROJECT_VERSION }}
           path: ${{ env.PROJECT_PATH }}
+          submodules: 'recursive'
 
       - name: setup msbuild
         uses: microsoft/setup-msbuild@v2
