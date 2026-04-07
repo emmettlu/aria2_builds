@@ -34,7 +34,7 @@ jobs:
       
       - name: Build
         working-directory: ${{ env.PROJECT_PATH }}
-        run: msbuild BuildAllTargets.proj /t:Build /p:Configuration=Release /p:Platform=x64 /m
+        run: msbuild Mile.Aria2.slnx /t:Build /p:Configuration=Release /p:Platform=x64 /m
       
       - name: Prepare artifacts
         working-directory: ${{ env.PROJECT_PATH }}
