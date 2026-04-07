@@ -37,8 +37,6 @@ jobs:
           xmake f -a x64 -m release --runtimes=MD -c -y
           xmake build
 
-      - name: cp
-        run: New-Item -ItemType Directory -Path dist && cp build/xpack/aria2/*.zip dist/
       - uses: actions/upload-artifact@v5
         with:
           name: aria2c_${{ github.run_id }}
