@@ -32,7 +32,7 @@ jobs:
       
       - name: Build
         env:
-          VERSION: " "
+          VERSION: ""
         run: |
           xmake f -a x64 -m release --runtimes=MD -c -y
           xmake build
@@ -43,4 +43,4 @@ jobs:
         with:
           name: aria2c_${{ github.run_id }}
           path: |
-            dist/*
+            build/windows/x64/release/aria2c.exe
