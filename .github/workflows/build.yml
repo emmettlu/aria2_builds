@@ -29,26 +29,19 @@ jobs:
         with:
           msbuild-architecture: x64
 
-      - name: clear NuGet cache
-        run: dotnet nuget locals all --clear
-
-      - name: build
+      - name: Clear local NuGet cache (workaround for failed restores on windows-latest)
         working-directory: ${{ env.PROJECT_PATH }}
-        run: |
-          msbuild BuildAllTargets.proj `
-          /p:PlatformToolset=v142 `
-          /p:WindowsTargetPlatformVersion=10.0.19041.0 `
-          /p:Platform=x64 `
-          /p:Configuration=Release `
-          /p:WholeProgramOptimization=true `
-          /p:Optimization=MinSpace `
-          /m `
-          /v:minimal
-
-      - name: Archive
-        uses: actions/upload-artifact@v5
+        run: dotnet nuget locals all --clear
+      
+      - name: Build
+        working-directory: ${{ env.PROJECT_PATH }}
+        run: msbuild BuildAllTargets.proj
+      
+      - name: Prepare artifacts
+        working-directory: ${{ env.PROJECT_PATH }}
+        run: rm Output\Binaries\* -vb -Recurse -Force -Include *.exp, *.idb, *.ilk, *.iobj, *.ipdb, *.lastbuildstate, *.lib, *.obj, *.res, *.tlog
+      
+      - uses: actions/upload-artifact@v5
         with:
-          name: ${{ env.PROJECT_BIN }}_${{ runner.os }}
-          path: |
-            ${{ env.PROJECT_PATH }}/x64/Release/*.dll
-            ${{ env.PROJECT_PATH }}/x64/Release/${{ env.PROJECT_BIN }}.exe
+          name: Mile.Aria2_CI_Build
+          path: ${{ env.PROJECT_PATH }}\Output\Binaries
