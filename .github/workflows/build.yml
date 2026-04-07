@@ -1,4 +1,4 @@
-name: Build rufus
+name: Build aria2
 
 on:
   push:
@@ -7,40 +7,35 @@ on:
 jobs:
   build:
     env:
-      PROJECT_REPOSITORY: ProjectMile/Mile.Aria2
-      PROJECT_VERSION: 1.0.1050.0
-      PROJECT_PATH: Aria2
-      PROJECT_BIN: Aria2
-    strategy:
-      matrix:
-        os: [windows-2022]
-    runs-on: ${{ matrix.os }}
+      PROJECT_REPOSITORY: zeromake/aria2-zero
+      PROJECT_VERSION: None
+      PROJECT_PATH: aria2
+      PROJECT_BIN: aria2
+    runs-on: windows-2022
     steps:
+      - name: config git
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+      
       - name: switch ${{ env.PROJECT_PATH }}
         uses: actions/checkout@v6
         with:
           repository: ${{ env.PROJECT_REPOSITORY }}
-          path: ${{ env.PROJECT_PATH }}
+          path: .
           submodules: 'recursive'
-
-      - name: setup msbuild
-        uses: microsoft/setup-msbuild@v2
+      - name: xmake
+        uses: xmake-io/github-action-setup-xmake@v1
         with:
-          msbuild-architecture: x64
-
-      - name: Clear local NuGet cache (workaround for failed restores on windows-latest)
-        working-directory: ${{ env.PROJECT_PATH }}
-        run: dotnet nuget locals all --clear
-      
+          xmake-version: latest
       - name: Build
-        working-directory: ${{ env.PROJECT_PATH }}
-        run: msbuild Mile.Aria2.slnx /t:Build /p:Configuration=Release /p:Platform=x64 /m
-      
-      - name: Prepare artifacts
-        working-directory: ${{ env.PROJECT_PATH }}
-        run: rm Output\Binaries\* -vb -Recurse -Force -Include *.exp, *.idb, *.ilk, *.iobj, *.ipdb, *.lastbuildstate, *.lib, *.obj, *.res, *.tlog
-      
+        env:
+          VERSION: " "
+        run: xmake f -c -k shared --runtimes='MD'
+      - name: cp
+        run: New-Item -ItemType Directory -Path dist && cp build/xpack/aria2/*.zip dist/
       - uses: actions/upload-artifact@v5
         with:
-          name: Mile.Aria2_CI_Build
-          path: ${{ env.PROJECT_PATH }}\Output\Binaries
+          name: aria2c_${{ github.run_id }}
+          path: |
+            dist/*
