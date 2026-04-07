@@ -24,14 +24,19 @@ jobs:
           repository: ${{ env.PROJECT_REPOSITORY }}
           path: .
           submodules: 'recursive'
+      
       - name: xmake
         uses: xmake-io/github-action-setup-xmake@v1
         with:
           xmake-version: latest
+      
       - name: Build
         env:
           VERSION: " "
-        run: xmake f -c -k shared --runtimes='MD'
+        run: |
+          xmake f -a x64 -m release --runtimes=MD -c -y
+          xmake build
+
       - name: cp
         run: New-Item -ItemType Directory -Path dist && cp build/xpack/aria2/*.zip dist/
       - uses: actions/upload-artifact@v5
