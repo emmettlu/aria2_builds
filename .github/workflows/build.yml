@@ -35,7 +35,7 @@ jobs:
       
       - name: Build
         working-directory: ${{ env.PROJECT_PATH }}
-        run: msbuild BuildAllTargets.proj
+        run: msbuild BuildAllTargets.proj /p:Configuration=Release /p:Platform=x64 /m
       
       - name: Prepare artifacts
         working-directory: ${{ env.PROJECT_PATH }}
