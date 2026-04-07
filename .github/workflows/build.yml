@@ -20,7 +20,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: ${{ env.PROJECT_REPOSITORY }}
-          ref: refs/main
           path: ${{ env.PROJECT_PATH }}
           submodules: 'recursive'
 
