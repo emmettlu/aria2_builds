@@ -30,6 +30,10 @@ jobs:
         with:
           xmake-version: latest
 
+      - name: Xmake clean
+        run: |
+          xmake global --clean
+
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -41,7 +45,7 @@ jobs:
         env:
           VERSION: ""
         run: |
-          xmake f -a x64 -m minsizerel --runtimes=MD `
+          xmake f -a x64 -m minsizerel --runtimes=MD --toolset=v142 `
             --cxxflags=" /fp:fast /Gy /GL /Gw /MD /MP /Oi /Os /GR- /GS-" `
             --ldflags=" /LTCG /OPT:REF /OPT:ICF /MERGE:_RDATA=.rdata" `
             -c -y
