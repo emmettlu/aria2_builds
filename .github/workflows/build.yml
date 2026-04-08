@@ -48,7 +48,7 @@ jobs:
           xmake f -a x64 -m minsizerel --runtimes=MD `
             --cxxflags=" /fp:fast /Gy /GL /Gw /MD /MP /Oi /Os /GR- /GS-" `
             --ldflags=" /LTCG /OPT:REF /OPT:ICF /MERGE:_RDATA=.rdata" `
-            -c -y
+            --vs=2019 -c -y
 
           xmake build
 
