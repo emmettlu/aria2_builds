@@ -39,6 +39,8 @@ jobs:
             --ldflags=" /LTCG /OPT:REF /OPT:ICF /MERGE:_RDATA=.rdata" `
             -c -y
 
+          xmake build
+
       - uses: actions/upload-artifact@v5
         with:
           name: aria2c_${{ github.run_id }}
