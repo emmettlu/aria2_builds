@@ -34,8 +34,11 @@ jobs:
         env:
           VERSION: ""
         run: |
-          xmake f -a x64 -m release --runtimes=MD -c -y
-          xmake build
+          xmake f -a x64 -m minsizerel --runtimes=MD \
+            --policies=build.optimization.smallest \
+            --cxxflags=" /fp:fast /Gy /GL /Gw /MD /MP /Oi /Os /GR- /GS-" \
+            --ldflags=" /LTCG /OPT:REF /OPT:ICF /MERGE:_RDATA=.rdata" \
+            -c -y
 
       - uses: actions/upload-artifact@v5
         with:
