@@ -36,14 +36,17 @@ jobs:
         run: |
           xmake global --clean
 
-          xmake f -a x64 -m minsizerel --runtimes=MD `
+          xmake f -c -a x64 -m minsizerel --runtimes=MD `
             --cxxflags=" /fp:fast /Gy /GL /Gw /MD /MP /Oi /Os /GR- /GS-" `
             --ldflags=" /LTCG /OPT:REF /OPT:ICF /MERGE:_RDATA=.rdata" `
-            --vs=2019 -y
+            --toolchain=msvc `
+            --vs=2019 `
+            --vs_toolset=v142 `
+            -y -v
 
           xmake f -v
 
-          xmake build
+          xmake build -v
 
       - uses: actions/upload-artifact@v5
         with:
