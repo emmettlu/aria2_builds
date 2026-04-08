@@ -45,4 +45,4 @@ jobs:
         with:
           name: aria2c_${{ github.run_id }}
           path: |
-            build/windows/x64/release/aria2c.exe
+            build/windows/x64/minsizerel/aria2c.exe
