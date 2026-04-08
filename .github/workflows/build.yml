@@ -35,7 +35,6 @@ jobs:
           VERSION: ""
         run: |
           xmake f -a x64 -m minsizerel --runtimes=MD `
-            --policies=build.optimization.smallest `
             --cxxflags=" /fp:fast /Gy /GL /Gw /MD /MP /Oi /Os /GR- /GS-" `
             --ldflags=" /LTCG /OPT:REF /OPT:ICF /MERGE:_RDATA=.rdata" `
             -c -y
