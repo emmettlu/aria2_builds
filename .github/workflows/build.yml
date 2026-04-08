@@ -25,30 +25,23 @@ jobs:
           path: .
           submodules: 'recursive'
       
-      - name: xmake
+      - name: Setup xmake
         uses: xmake-io/github-action-setup-xmake@v1
         with:
           xmake-version: latest
-
-      - name: Xmake clean
-        run: |
-          xmake global --clean
-
-      - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          toolset: 14.29
-          arch: x64
-          sdk: 10.0.19041.0
 
       - name: Build
         env:
           VERSION: ""
         run: |
+          xmake global --clean
+
           xmake f -a x64 -m minsizerel --runtimes=MD `
             --cxxflags=" /fp:fast /Gy /GL /Gw /MD /MP /Oi /Os /GR- /GS-" `
             --ldflags=" /LTCG /OPT:REF /OPT:ICF /MERGE:_RDATA=.rdata" `
             --vs=2019 -c -y
+
+          xmake f --show
 
           xmake build
 
